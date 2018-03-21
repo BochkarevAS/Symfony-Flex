@@ -1,0 +1,26 @@
+
+###> symfony/framework-bundle ###
+.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/web-server-bundle ###
+.web-server-pid
+###< symfony/web-server-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+.idea
+config/packages/doctrine.yaml
+config/packages/doctrine_migrations.yaml
+config/packages/prod/doctrine.yaml
+config/packages/translation.yaml
+src/DataFixtures/.gitignore
+src/Entity/.gitignore
+src/Migrations/
+src/Repository/
+translations/

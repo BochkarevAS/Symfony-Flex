@@ -1,0 +1,10 @@
+<tr data-weight="{{ product.price }}">
+    <td>{{ product.name }}</td>
+    <td>{{ product.price }}</td>
+    <td></td>
+    <td>
+        <a href="#" class="js-delete-rep-log" data-url="{{ path('product_delete', {id: product.id}) }}">
+            <span class="fa fa-trash"></span>
+        </a>
+    </td>
+</tr>

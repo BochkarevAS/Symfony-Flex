@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container js-rep-log-table">
+
+        <div class="js-new-rep-log-form-wrapper">
+            {{ include('/catalog/products_form.html.twig') }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Цена</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    {{ include('/catalog/products_render.html.twig') }}
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th class="js-total-weight"></th>
+                    <td>&nbsp;</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/product.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            var $wrapper = $('.js-rep-log-table');
+            var product = new Product($wrapper);
+        });
+    </script>
+
+{% endblock %}

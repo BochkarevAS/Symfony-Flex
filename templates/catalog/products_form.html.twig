@@ -1,0 +1,21 @@
+<form data-url="{{ path('product_new') }}" name="product" method="post" class="form-inline js-new-rep-log-form" novalidate="novalidate">
+
+    <div class="form-group">
+        <label class="sr-only required" for="product_name">Название</label>
+        <select id="product_name" name="name" required="required">
+            <option value="" selected="selected">Выберети названия</option>
+            <option value="Freight Agent">Freight Agent</option>
+            <option value="Safety Engineer">Safety Engineer</option>
+            <option value="Civil Engineer">Civil Engineer</option>
+            <option value="Carver">Carver</option>
+            <option value="Athletic Trainer">Athletic Trainer</option>
+            <option value="Irradiated-Fuel Handler">Irradiated-Fuel Handler</option>
+            <option value="Legal Secretary">Legal Secretary</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="sr-only required" for="product_price">Цена</label>
+        <input type="number" id="product_price" name="price" required="required" placeholder="Цена" />
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</form>
