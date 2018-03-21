@@ -1,4 +1,4 @@
-
+.idea
 ###> symfony/framework-bundle ###
 .env
 /public/bundles/
@@ -14,7 +14,6 @@
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-.idea
 config/packages/doctrine.yaml
 config/packages/doctrine_migrations.yaml
 config/packages/prod/doctrine.yaml
