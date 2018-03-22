@@ -43,10 +43,6 @@
                 data: JSON.stringify(formData),
                 success: function (data) {
                     self._clearForm($form);
-
-                    console.log(data);
-                    console.log(1);
-
                     self._addRow(data);
                 },
                 error: function (jqXHR) {
