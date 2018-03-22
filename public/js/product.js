@@ -10,11 +10,23 @@
     };
 
     window.Product.prototype = {
+        _removeFormErrors: function ($form) {
+            $form.find('.js-field-error').remove();
+            $form.find('.form-group').removeClass('has-error');
+        },
+        _clearForm: function ($form) {
+            this._removeFormErrors($form);
+            $form[0].reset();
+        },
+        _addRow: function(product) {
+            console.log(product);
+        },
         handleNewFormSubmit: function (e) {
             e.preventDefault();
 
             var $form = $(e.currentTarget);
             var formData = {};
+            var self = this;
 
             $.each($form.serializeArray(), function(key, fieldData) {
                 formData[fieldData.name] = fieldData.value
@@ -25,12 +37,12 @@
                 method: 'POST',
                 data: JSON.stringify(formData),
                 success: function (data) {
-                    console.log('1');
+                    self._clearForm($form);
+                    self._addRow(data);
                 },
                 error: function (jqXHR) {
                     var errorData = JSON.parse(jqXHR.responseText);
-                    $form.find('.js-field-error').remove();
-                    $form.find('.form-group').removeClass('has-error');
+                    self._removeFormErrors($form);
 
                     $form.find(':input').each(function () {
                         var fieldName = $(this).attr('name');
