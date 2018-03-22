@@ -1,15 +1,27 @@
 'use strict';
 
-(function (window, $) {
+(function (window, $, Routing) {
     window.Product = function ($wrapper) {
         this.$wrapper = $wrapper;
         this.helper = new Helper($wrapper);
         this.$wrapper.on('click', '.js-delete-rep-log', this.handleDelete.bind(this));
         this.$wrapper.on('submit', '.js-new-rep-log-form', this.handleNewFormSubmit.bind(this));
-        this.$wrapper.find('.js-total-weight').html(this.helper.calculateTotalWeight());
+        this.load();
     };
 
     window.Product.prototype = {
+        load: function() {
+            var self = this;
+            $.ajax({
+                url: Routing.generate('product_render'),
+                success: function(data) {
+                    $.each(data, function(key, value) {
+                        self._addRow(value);
+                    });
+                    self.$wrapper.find('.js-total-weight').html(self.helper.calculateTotalWeight());
+                }
+            });
+        },
         _removeFormErrors: function ($form) {
             $form.find('.js-field-error').remove();
             $form.find('.form-group').removeClass('has-error');
@@ -44,6 +56,7 @@
                 success: function (data) {
                     self._clearForm($form);
                     self._addRow(data);
+                    self.$wrapper.find('.js-total-weight').html(self.helper.calculateTotalWeight());
                 },
                 error: function (jqXHR) {
                     var errorData = JSON.parse(jqXHR.responseText);
@@ -108,4 +121,4 @@
 
         return totalWeight;
     }
-}(window, jQuery));
+}(window, jQuery, Routing));

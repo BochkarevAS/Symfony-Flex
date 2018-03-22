@@ -16,6 +16,28 @@ class ProductController extends Controller
 {
 
     /**
+     * @Route("/product/render", name="product_render", options={"expose"=true}, methods={"GET"})
+     */
+    public function getRepLogsAction() {
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+        $models = [];
+
+        foreach ($products as $product) {
+            $models[] = [
+                'name' => $product->getName(),
+                'price' => $product->getPrice(),
+                'self' => $this->generateUrl('product_delete', ['id' => $product->getId()])
+            ];
+
+            //$models[] = $product; //$this->createRepLogApiModel($repLog);
+        }
+
+        $json = $this->get('serializer')->serialize($models, 'json');
+
+        return new JsonResponse($json, 200, [], true);
+    }
+
+    /**
      * @Route("/product", name="product_show")
      */
     public function showProduct(Request $request) {
