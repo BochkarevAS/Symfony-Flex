@@ -18,8 +18,13 @@
             this._removeFormErrors($form);
             $form[0].reset();
         },
-        _addRow: function(product) {
-            console.log(product);
+        _addRow: function (product) {
+            var tplText = $('#js-rep-log-row-template').html();
+            var tpl = _.template(tplText); // Create a template object
+            var html = tpl(product);
+
+            this.$wrapper.find('tbody').append($.parseHTML(html));
+            this.helper.calculateTotalWeight();
         },
         handleNewFormSubmit: function (e) {
             e.preventDefault();
@@ -38,6 +43,10 @@
                 data: JSON.stringify(formData),
                 success: function (data) {
                     self._clearForm($form);
+
+                    console.log(data);
+                    console.log(1);
+
                     self._addRow(data);
                 },
                 error: function (jqXHR) {

@@ -24,20 +24,11 @@ class ProductController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
             $product = $form->getData();
-            $product->setPrice($product->getPrice());
-            $product->setName($product->getName());
 
+            $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
-
-//            if ($request->isXmlHttpRequest()) {
-//                return $this->render('catalog/products_render.html.twig', [
-//                    'product' => $product
-//                ]);
-//            }
 
             $this->addFlash('Success', 'Created!');
 
@@ -46,14 +37,6 @@ class ProductController extends Controller
 
         $repository = $this->getDoctrine()->getRepository(Product::class);
         $products = $repository->findAll();
-
-//        if ($request->isXmlHttpRequest()) {
-//            $html = $this->renderView('catalog/products_render.html.twig', [
-//                'form' => $form->createView()
-//            ]);
-//
-//            return new Response($html, 400);
-//        }
 
         return $this->render('catalog/products.html.twig', [
             'products' => $products,
@@ -100,17 +83,21 @@ class ProductController extends Controller
             return new JsonResponse($json, 400, [], true);
         }
 
-        return new Response(null, 204);
+        $product = $form->getData();
 
-//        $product = new Product();
-//        $product->setName($name);
-//        $product->setPrice($price);
-//
-//        $em = $this->getDoctrine()->getManager();
-//        $em->persist($product);
-//        $em->flush();
-//
-//        return new Response('Created!');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($product);
+        $em->flush();
+
+        $list = [
+            'name' => $product->getName(),
+            'price' => $product->getPrice(),
+            'self' => $this->generateUrl('product_delete', ['id' => $product->getId()])
+        ];
+
+        $json = $this->get('serializer')->serialize($list, 'json');
+
+        return new JsonResponse($json, 200, [], true);
     }
 
     private function getErrorsFromForm(FormInterface $form) {
