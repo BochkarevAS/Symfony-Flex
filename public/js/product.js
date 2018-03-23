@@ -10,7 +10,7 @@
     };
 
     window.Product.prototype = {
-        load: function() {
+        load: function () {
             var self = this;
             $.ajax({
                 url: Routing.generate('product_render'),
@@ -36,7 +36,6 @@
             var html = tpl(product);
 
             this.$wrapper.find('tbody').append($.parseHTML(html));
-            this.helper.calculateTotalWeight();
         },
         handleNewFormSubmit: function (e) {
             e.preventDefault();
@@ -77,6 +76,9 @@
                         $wrapper.addClass('has-error');
                     })
                 }
+            }).then(function (data) {
+                console.log('I am successful!');
+                console.log(data);
             });
         },
         handleDelete: function (e) {

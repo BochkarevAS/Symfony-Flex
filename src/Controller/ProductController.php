@@ -28,8 +28,6 @@ class ProductController extends Controller
                 'price' => $product->getPrice(),
                 'self' => $this->generateUrl('product_delete', ['id' => $product->getId()])
             ];
-
-            //$models[] = $product; //$this->createRepLogApiModel($repLog);
         }
 
         $json = $this->get('serializer')->serialize($models, 'json');
