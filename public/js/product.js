@@ -11,16 +11,17 @@
 
     window.Product.prototype = {
         load: function () {
-            var self = this;
             $.ajax({
-                url: Routing.generate('product_render'),
-                success: function(data) {
-                    $.each(data, function(key, value) {
-                        self._addRow(value);
-                    });
-                    self.$wrapper.find('.js-total-weight').html(self.helper.calculateTotalWeight());
+                url: Routing.generate('product_render')
+            }).then((data) => {
+                for (let row of data) {
+                    this._addRow(row);
                 }
+                this._calculateTotalWeight();
             });
+        },
+        _calculateTotalWeight: function () {
+            this.$wrapper.find('.js-total-weight').html(this.helper.calculateTotalWeight());
         },
         _removeFormErrors: function ($form) {
             $form.find('.js-field-error').remove();
@@ -31,18 +32,18 @@
             $form[0].reset();
         },
         _addRow: function (product) {
-            var tplText = $('#js-rep-log-row-template').html();
-            var tpl = _.template(tplText); // Create a template object
-            var html = tpl(product);
+            let tplText = $('#js-rep-log-row-template').html();
+            let tpl = _.template(tplText); // Create a template object
+            let html = tpl(product);
 
             this.$wrapper.find('tbody').append($.parseHTML(html));
         },
         handleNewFormSubmit: function (e) {
             e.preventDefault();
 
-            var $form = $(e.currentTarget);
-            var formData = {};
-            var self = this;
+            let $form = $(e.currentTarget);
+            let formData = {};
+            let self = this;
 
             $.each($form.serializeArray(), function(key, fieldData) {
                 formData[fieldData.name] = fieldData.value
@@ -51,59 +52,50 @@
             $.ajax({
                 url: $form.data('url'),
                 method: 'POST',
-                data: JSON.stringify(formData),
-                success: function (data) {
-                    self._clearForm($form);
-                    self._addRow(data);
-                    self.$wrapper.find('.js-total-weight').html(self.helper.calculateTotalWeight());
-                },
-                error: function (jqXHR) {
-                    var errorData = JSON.parse(jqXHR.responseText);
-                    self._removeFormErrors($form);
+                data: JSON.stringify(formData)
+            }).then(data => {
+                self._clearForm($form);
+                self._addRow(data);
+                self._calculateTotalWeight();
+            }).catch(jqXHR => {
+                let errorData = JSON.parse(jqXHR.responseText);
+                self._removeFormErrors($form);
 
-                    $form.find(':input').each(function () {
-                        var fieldName = $(this).attr('name');
-                        var $wrapper = $(this).closest('.form-group');
+                $form.find(':input').each(function () {
+                    let fieldName = $(this).attr('name');
+                    let $wrapper = $(this).closest('.form-group');
 
-                        if (!errorData.errors[fieldName]) {
-                            // no error!
-                            return;
-                        }
+                    if (!errorData.errors[fieldName]) {
+                        // no error!
+                        return;
+                    }
 
-                        var $error = $('<span class="js-field-error help-block"></span>');
-                        $error.html(errorData.errors[fieldName]);
-                        $wrapper.append($error);
-                        $wrapper.addClass('has-error');
-                    })
-                }
-            }).then(function (data) {
-                console.log('I am successful!');
-                console.log(data);
+                    let $error = $('<span class="js-field-error help-block"></span>');
+                    $error.html(errorData.errors[fieldName]);
+                    $wrapper.append($error);
+                    $wrapper.addClass('has-error');
+                })
             });
         },
         handleDelete: function (e) {
             e.preventDefault();
 
-            var $link = $(e.currentTarget);
-            var deleteUrl = $link.data('url');
-            var $row = $link.closest('tr');
-            var self = this;
+            let $link = $(e.currentTarget);
+            let deleteUrl = $link.data('url');
+            let $row = $link.closest('tr');
+            let self = this;
 
             $link.addClass('text-danger');
-            $link.find('.fa')
-                .removeClass('fa-trash')
-                .addClass('fa-spinner')
-                .addClass('fa-spin');
+            $link.find('.fa').removeClass('fa-trash').addClass('fa-spinner').addClass('fa-spin');
 
             $.ajax({
                 url: deleteUrl,
-                method: 'POST',
-                success: function () {
-                    $row.fadeOut('normal', function() {
-                        $(this).remove();
-                        self.$wrapper.find('.js-total-weight').html(self.helper.calculateTotalWeight());
-                    });
-                }
+                method: 'POST'
+            }).then(() => {
+                $row.fadeOut('normal', () => {
+                    $(this).remove();
+                    self._calculateTotalWeight();
+                });
             })
         }
     };
@@ -111,11 +103,11 @@
     /**
      * A "private" object
      */
-    var Helper = function ($wrapper) {
+    let Helper = function ($wrapper) {
         this.$wrapper = $wrapper;
     };
     Helper.prototype.calculateTotalWeight = function() {
-        var totalWeight = 0;
+        let totalWeight = 0;
 
         this.$wrapper.find('tbody tr').each(function () {
             totalWeight += $(this).data('weight');

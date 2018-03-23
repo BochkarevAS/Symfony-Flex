@@ -15,6 +15,4 @@ class MovieController extends Controller
 
         return $this->render('movie/movies.html.twig');
     }
-
-
 }
