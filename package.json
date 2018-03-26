@@ -6,6 +6,7 @@
   "author": "BochkarevAS <bochkarev-vl@mail.ru>",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.26.0"
+    "@symfony/webpack-encore": "^0.19.0",
+    "webpack-notifier": "^1.6.0"
   }
 }

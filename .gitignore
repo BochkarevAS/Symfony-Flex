@@ -23,5 +23,7 @@ src/Entity/.gitignore
 src/Migrations/
 src/Repository/
 translations/
-node_modules/
+node_modules/*
 yarn.lock
+
+public/build/

@@ -1,5 +1,7 @@
 'use strict';
 
+const Helper = require('./Helper');
+
 (function (window, $, Routing, swal) {
 
     let HelperInstances = new WeakMap();
@@ -125,23 +127,6 @@
             }).catch(function(arg) {
                 console.log('canceled', arg);
             });
-        }
-    }
-
-    /**
-     * A "private" object
-     */
-    class Helper {
-        constructor(count) {
-            this.count = count;
-        }
-
-        calculateTotalWeight() {
-            let totalWeight = 0;
-            for (let element of this.count) {
-                totalWeight += element;
-            }
-            return totalWeight;
         }
     }
 
