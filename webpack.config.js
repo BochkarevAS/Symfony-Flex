@@ -9,7 +9,7 @@ Encore
     .setPublicPath('/build')
 
     // will create public/build/app.js and public/build/app.css
-    .addEntry('product', './public/js/Product.js')
+    .addEntry('app', './public/js/app.js')
 
     .enableBuildNotifications()
 ;

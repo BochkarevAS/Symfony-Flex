@@ -7,6 +7,8 @@
   "license": "MIT",
   "devDependencies": {
     "@symfony/webpack-encore": "^0.19.0",
+    "jquery": "^3.3.1",
+    "sweetalert2": "^7.18.0",
     "webpack-notifier": "^1.6.0"
   }
 }

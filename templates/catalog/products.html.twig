@@ -2,14 +2,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.min.css" />
-
 {% endblock %}
 
 {% block body %}
 
-    <div class="container js-rep-log-table">
+    <div class="container js-product-module">
 
         <div class="js-new-rep-log-form-wrapper">
             {{ include('/catalog/products_form.html.twig') }}
@@ -40,15 +37,7 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.min.js"></script>
-    <script src="{{ asset('build/product.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            let $wrapper = $('.js-rep-log-table');
-            let product = new Product($wrapper);
-        });
-    </script>
+    <script src="{{ asset('build/app.js') }}"></script>
 
     <script type="text/template" id="js-rep-log-row-template">
         <tr data-weight="<%= price %>">
