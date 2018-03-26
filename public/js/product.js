@@ -1,16 +1,35 @@
 'use strict';
 
-(function (window, $, Routing) {
-    window.Product = function ($wrapper) {
-        this.$wrapper = $wrapper;
-        this.helper = new Helper($wrapper);
-        this.$wrapper.on('click', '.js-delete-rep-log', this.handleDelete.bind(this));
-        this.$wrapper.on('submit', '.js-new-rep-log-form', this.handleNewFormSubmit.bind(this));
-        this.load();
-    };
+(function (window, $, Routing, swal) {
 
-    window.Product.prototype = {
-        load: function () {
+    class Product {
+
+        constructor($wrapper) {
+            this.$wrapper = $wrapper;
+            this.helper = new Helper($wrapper);
+
+            this.$wrapper.on('click', '.js-delete',
+                this.handleDelete.bind(this)
+            );
+
+            this.$wrapper.on('submit', '.js-new',
+                this.handleNewFormSubmit.bind(this)
+            );
+
+            this.load();
+        }
+
+        static _removeFormErrors($form) {
+            $form.find('.js-field-error').remove();
+            $form.find('.form-group').removeClass('has-error');
+        }
+
+        static _clearForm($form) {
+            Product._removeFormErrors($form);
+            $form[0].reset();
+        }
+
+        load() {
             $.ajax({
                 url: Routing.generate('product_render')
             }).then((data) => {
@@ -19,51 +38,42 @@
                 }
                 this._calculateTotalWeight();
             });
-        },
-        _calculateTotalWeight: function () {
-            this.$wrapper.find('.js-total-weight').html(this.helper.calculateTotalWeight());
-        },
-        _removeFormErrors: function ($form) {
-            $form.find('.js-field-error').remove();
-            $form.find('.form-group').removeClass('has-error');
-        },
-        _clearForm: function ($form) {
-            this._removeFormErrors($form);
-            $form[0].reset();
-        },
-        _addRow: function (product) {
-            let tplText = $('#js-rep-log-row-template').html();
-            let tpl = _.template(tplText); // Create a template object
-            let html = tpl(product);
+        }
 
+        _calculateTotalWeight() {
+            this.$wrapper.find('.js-total-weight').html(this.helper.calculateTotalWeight());
+        }
+
+        _addRow(product) {
+            let html = rowTemplate(product); // Create a template object
             this.$wrapper.find('tbody').append($.parseHTML(html));
-        },
-        handleNewFormSubmit: function (e) {
+        }
+
+        handleNewFormSubmit(e) {
             e.preventDefault();
 
             let $form = $(e.currentTarget);
             let formData = {};
-            let self = this;
 
-            $.each($form.serializeArray(), function(key, fieldData) {
+            for (let fieldData of $form.serializeArray()) {
                 formData[fieldData.name] = fieldData.value
-            });
+            }
 
             $.ajax({
                 url: $form.data('url'),
                 method: 'POST',
                 data: JSON.stringify(formData)
             }).then(data => {
-                self._clearForm($form);
-                self._addRow(data);
-                self._calculateTotalWeight();
+                Product._clearForm($form);
+                this._addRow(data);
+                this._calculateTotalWeight();
             }).catch(jqXHR => {
                 let errorData = JSON.parse(jqXHR.responseText);
-                self._removeFormErrors($form);
+                Product._removeFormErrors($form);
 
-                $form.find(':input').each(function () {
-                    let fieldName = $(this).attr('name');
-                    let $wrapper = $(this).closest('.form-group');
+                for (let element of $form.find(':input')) {
+                    let fieldName = $(element).attr('name');
+                    let $wrapper = $(element).closest('.form-group');
 
                     if (!errorData.errors[fieldName]) {
                         // no error!
@@ -74,16 +84,13 @@
                     $error.html(errorData.errors[fieldName]);
                     $wrapper.append($error);
                     $wrapper.addClass('has-error');
-                })
+                }
             });
-        },
-        handleDelete: function (e) {
-            e.preventDefault();
+        }
 
-            let $link = $(e.currentTarget);
+        _delete($link) {
             let deleteUrl = $link.data('url');
             let $row = $link.closest('tr');
-            let self = this;
 
             $link.addClass('text-danger');
             $link.find('.fa').removeClass('fa-trash').addClass('fa-spinner').addClass('fa-spin');
@@ -93,26 +100,58 @@
                 method: 'POST'
             }).then(() => {
                 $row.fadeOut('normal', () => {
-                    $(this).remove();
-                    self._calculateTotalWeight();
+                    $row.remove();
+                    this._calculateTotalWeight();
                 });
             })
         }
-    };
+
+        handleDelete(e) {
+            e.preventDefault();
+
+            let $link = $(e.currentTarget);
+
+            swal({
+                title: 'Удаление',
+                text: 'Вы уверены ?',
+                showCancelButton: true
+            }).then(willDelete => {
+                this._delete($link);
+            }).catch(function(arg) {
+                console.log('canceled', arg);
+            });
+        }
+    }
 
     /**
      * A "private" object
      */
-    let Helper = function ($wrapper) {
-        this.$wrapper = $wrapper;
-    };
-    Helper.prototype.calculateTotalWeight = function() {
-        let totalWeight = 0;
+    class Helper {
+        constructor($wrapper) {
+            this.$wrapper = $wrapper;
+        }
 
-        this.$wrapper.find('tbody tr').each(function () {
-            totalWeight += $(this).data('weight');
-        });
-
-        return totalWeight;
+        calculateTotalWeight() {
+            let totalWeight = 0;
+            for (let element of this.$wrapper.find('tbody tr')) {
+                totalWeight += $(element).data('weight');
+            }
+            return totalWeight;
+        }
     }
-}(window, jQuery, Routing));
+
+    const rowTemplate = (prod) => `
+        <tr data-weight="${prod.price}">
+            <td>${prod.name}</td>
+            <td>${prod.price}</td>
+            <td></td>
+            <td>
+                <a href="#" class="js-delete" data-url="${prod.self}">
+                    <span class="fa fa-trash"></span>
+                </a>
+            </td>
+        </tr>`;
+
+    window.Product = Product;
+
+}(window, jQuery, Routing, swal));
