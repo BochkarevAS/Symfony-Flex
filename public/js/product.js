@@ -2,11 +2,14 @@
 
 (function (window, $, Routing, swal) {
 
+    let HelperInstances = new WeakMap();
+
     class Product {
 
         constructor($wrapper) {
             this.$wrapper = $wrapper;
-            this.helper = new Helper($wrapper);
+            this.count = [];
+            HelperInstances.set(this, new Helper(this.count));
 
             this.$wrapper.on('click', '.js-delete',
                 this.handleDelete.bind(this)
@@ -40,11 +43,13 @@
             });
         }
 
-        _calculateTotalWeight() {
-            this.$wrapper.find('.js-total-weight').html(this.helper.calculateTotalWeight());
+        _calculateTotalWeight(cnt = 0) {
+            let count = HelperInstances.get(this).calculateTotalWeight();
+            this.$wrapper.find('.js-total-weight').html(count - cnt);
         }
 
         _addRow(product) {
+            this.count.push(product.price);
             let html = rowTemplate(product); // Create a template object
             this.$wrapper.find('tbody').append($.parseHTML(html));
         }
@@ -101,7 +106,7 @@
             }).then(() => {
                 $row.fadeOut('normal', () => {
                     $row.remove();
-                    this._calculateTotalWeight();
+                    this._calculateTotalWeight($row.data('weight'));
                 });
             })
         }
@@ -127,14 +132,14 @@
      * A "private" object
      */
     class Helper {
-        constructor($wrapper) {
-            this.$wrapper = $wrapper;
+        constructor(count) {
+            this.count = count;
         }
 
         calculateTotalWeight() {
             let totalWeight = 0;
-            for (let element of this.$wrapper.find('tbody tr')) {
-                totalWeight += $(element).data('weight');
+            for (let element of this.count) {
+                totalWeight += element;
             }
             return totalWeight;
         }

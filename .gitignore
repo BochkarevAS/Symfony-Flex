@@ -23,3 +23,5 @@ src/Entity/.gitignore
 src/Migrations/
 src/Repository/
 translations/
+node_modules/
+yarn.lock

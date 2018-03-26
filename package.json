@@ -1,0 +1,11 @@
+{
+  "name": "Symfony-Flex",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/BochkarevAS/Symfony-Flex.git",
+  "author": "BochkarevAS <bochkarev-vl@mail.ru>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  }
+}
