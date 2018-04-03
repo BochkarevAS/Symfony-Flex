@@ -23,6 +23,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="#">Кабинет</a>
+                        <a class="dropdown-item" href="{{ path('security_login') }}">Вход</a>
                         <a class="dropdown-item" href="#">Выход</a>
                     </div>
                 </li>
@@ -30,14 +31,16 @@
         </div>
     </nav>
 
+    {% block body %}{% endblock %}
+
     <footer class="footer">
         <hr />
         <p>{{ ''|date('Y') }}</p>
     </footer>
 
     {% block javascripts %}
-        {#<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>#}
-        {#<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>#}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         <script src="{{ asset('build/layout.js') }}"></script>
     {% endblock %}
 </body>
