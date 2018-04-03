@@ -26,4 +26,4 @@ translations/
 node_modules/*
 yarn.lock
 
-public/build/
+public/build/*

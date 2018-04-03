@@ -7,11 +7,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
-class ArticleController extends AbstractController
+class HomeController extends AbstractController
 {
 
     /**
-     * @Route("/", name="article_homepage")
+     * @Route("/", name="homepage")
      */
     public function homepage() {
 
