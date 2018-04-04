@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user", schema="catalog")
+ * @ORM\Table(name="user")
+ * @UniqueEntity(fields="email", message="Email already taken")
  */
 class User implements UserInterface
 {
@@ -29,8 +32,22 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
     public function getUsername() {
         return $this->email;
+    }
+
+    public function getPlainPassword() {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password) {
+        $this->plainPassword = $password;
     }
 
     public function getPassword() {
@@ -39,6 +56,10 @@ class User implements UserInterface
 
     public function setPassword($password) {
         $this->password = $password;
+    }
+
+    public function getEmail() {
+        return $this->email;
     }
 
     public function setEmail($email) {

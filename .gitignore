@@ -9,11 +9,6 @@
 ###> symfony/web-server-bundle ###
 .web-server-pid
 ###< symfony/web-server-bundle ###
-
-###> symfony/phpunit-bridge ###
-.phpunit
-/phpunit.xml
-###< symfony/phpunit-bridge ###
 config/packages/doctrine.yaml
 config/packages/doctrine_migrations.yaml
 config/packages/prod/doctrine.yaml

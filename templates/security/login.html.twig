@@ -1,4 +1,4 @@
-{% extends 'security/layout.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -15,7 +15,7 @@
 {% block auth_user_content %}
     <div class="container">
         <div class="wrapper">
-            <form action="{{ path('security_login') }}" method="post" class="form-signin">
+            <form action="{{ path('user_login') }}" method="post" class="form-signin">
 
                 <h3><img class="dumbbell" width="50" height="50" src="{{ asset('assets/images/alien-profile.png') }}">Вход</h3>
 
@@ -34,7 +34,7 @@
                     <label for="password">Пароль:</label>
                     <input type="password" id="password" name="_password" class="form-control" />
                 </div>
-
+                <a href="{{ path('user_registration') }}" class="dropdown">Регестрация</a>
                 <button type="submit" class="btn btn-success pull-right">Войти<span class="fa fa-lock"></span></button>
             </form>
         </div>

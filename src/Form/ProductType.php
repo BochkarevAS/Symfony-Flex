@@ -24,7 +24,7 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
             'data_class' => Product::class,
-            "csrf_protection" => "false",
+            'csrf_protection' => false,
             "allow_extra_fields" => true
         ]);
     }

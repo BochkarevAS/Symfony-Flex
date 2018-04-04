@@ -7,11 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends Controller
+class LoginController extends Controller
 {
 
     /**
-     * @Route("/login", name="security_login")
+     * @Route("/login", name="user_login")
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils) {
 
@@ -26,7 +26,7 @@ class SecurityController extends Controller
     }
 
     /**
-     * @Route("/logout", name="security_logout")
+     * @Route("/logout", name="user_logout")
      */
     public function logout() {
         throw new \Exception('this should not be reached!');

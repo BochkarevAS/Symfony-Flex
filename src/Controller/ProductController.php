@@ -18,7 +18,7 @@ class ProductController extends Controller
     /**
      * @Route("/product/render", name="product_render", options={"expose"=true}, methods={"GET"})
      */
-    public function getRepLogsAction() {
+    public function renderAction() {
         $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
         $models = [];
 
