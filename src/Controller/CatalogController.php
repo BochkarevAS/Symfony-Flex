@@ -20,7 +20,20 @@ class CatalogController extends AbstractController
 
         $data = json_decode($json, true);
 
-        $this->buildTree($data);
+
+        $catalog = new Catalog();
+
+        $em = $this->getDoctrine()->getManager();
+        $catalog->setIdCat(1);
+        $catalog->setParentId('1');
+        $catalog->setTitle('россия');
+//            $catalog->setSlug('slug');
+
+        $em->persist($catalog);
+        $em->flush();
+
+
+//        $this->buildTree($data);
 
         return $this->redirectToRoute('homepage');
     }

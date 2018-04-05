@@ -24,14 +24,13 @@ class Catalog
     private $id_cat;
 
     /**
-     * @Gedmo\Translatable
      * @ORM\Column(type="string")
      */
     private $title;
 
     /**
      * @Gedmo\Slug(fields={"title"})
-     * @ORM\Column(length=128, nullable=true, unique=true)
+     * @ORM\Column(length=128, unique=true)
      */
     private $slug;
 

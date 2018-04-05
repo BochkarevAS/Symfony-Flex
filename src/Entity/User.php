@@ -1,20 +1,16 @@
 <?php
-
 namespace App\Entity;
-
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", schema="public")
  * @UniqueEntity(fields="email", message="Email already taken")
  */
 class User implements UserInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -71,10 +67,8 @@ class User implements UserInterface
     }
 
     public function getSalt() {
-
     }
 
     public function eraseCredentials() {
-
     }
 }

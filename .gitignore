@@ -20,5 +20,5 @@ src/Repository/
 translations/
 node_modules/*
 yarn.lock
-
 public/build/*
+bin/.phpunit/*

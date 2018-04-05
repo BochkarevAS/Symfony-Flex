@@ -14,29 +14,6 @@ class HomeController extends AbstractController
      */
     public function homepage() {
 
-        return $this->render('article/homepage.html.twig');
+        return $this->render('home/homepage.html.twig');
     }
-
-    /**
-     * @Route("/news/{slug}", name="article_show")
-     */
-    public function show($slug) {
-
-        $comments = [];
-
-        return $this->render('article/show.html.twig', [
-            'title' => ucwords(str_replace('-', ' ', $slug)),
-            'slug' => $slug,
-            'comments' => $comments
-        ]);
-    }
-
-    /**
-     * @Route("/news/{slug}/heart", name="article_toggle_heart", methods={"POST"})
-     */
-    public function toggleArticleHeart($slug) {
-
-        return new JsonResponse(['hearts' => rand(1, 100)]);
-    }
-
 }

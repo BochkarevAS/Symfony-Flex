@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-8">
+
+                <a class="main-article-link" href="#">
+                    <div class="main-article mb-5 pb-3">
+                        <h1 class="text-center mt-2">Доска: <br>Зделайте выбор?</h1>
+                    </div>
+                </a>
+
+                <div class="article-container my-1">
+                    <a href="#">
+                        <img class="article-img" src="{{ asset('build/images/dumbbell-mini.41a097b7.png') }}">
+                        <div class="article-title d-inline-block pl-3 align-middle">
+                            <span>Какойнить коммент добавлю</span>
+                            <br>
+                            <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('build/images/dumbbell-mini.41a097b7.png') }}"> Имя автор </span>
+                            <span class="pl-5 article-details float-right"> 3 часа назад</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4 text-center">
+                <div class="ad-space mx-auto mt-1 pb-2 pt-2">
+                    <img class="advertisement-img" src="{{ asset('build/images/dumbbell-mini.41a097b7.png') }}">
+                    <p><span class="advertisement-text">Новости:</span> Тут какаенебуть статья</p>
+                </div>
+
+                <div class="quote-space pb-2 pt-2 px-5">
+
+                    <p class="pt-4"><i class="fa fa-comment"></i> "Какойнить коммент"
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

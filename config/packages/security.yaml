@@ -15,8 +15,8 @@ security:
         main:
             anonymous: ~
             form_login:
-                login_path: security_login
-                check_path: security_login
+                login_path: user_login
+                check_path: user_login
             logout:
                 path: /logout
 
@@ -31,6 +31,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/security_login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user_login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user_registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # - { path: ^/profile, roles: ROLE_USER }
