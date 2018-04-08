@@ -20,16 +20,14 @@ class CatalogController extends AbstractController
 
         $data = json_decode($json, true);
 
-
         $catalog = new Catalog();
 
         $em = $this->getDoctrine()->getManager();
         $catalog->setIdCat(1);
         $catalog->setParentId('1');
-        $catalog->setTitle('россия');
-//            $catalog->setSlug('slug');
+        $catalog->setTitle('росс');
 
-        $em->persist($catalog);
+        $em->merge($catalog);
         $em->flush();
 
 

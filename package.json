@@ -8,6 +8,7 @@
   "devDependencies": {
     "@symfony/webpack-encore": "^0.19.0",
     "bootstrap": "4.0.0",
+    "copy-webpack-plugin": "^4.5.1",
     "font-awesome": "4",
     "jquery": "^3.3.1",
     "sweetalert2": "^7.18.0",

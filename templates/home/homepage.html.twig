@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body %}
+{% block auth_user_content %}
 
     <div class="container">
         <div class="row">
@@ -14,11 +14,11 @@
 
                 <div class="article-container my-1">
                     <a href="#">
-                        <img class="article-img" src="{{ asset('build/images/dumbbell-mini.41a097b7.png') }}">
+                        <img class="article-img" src="{{ asset('build/images/alien-profile.png') }}">
                         <div class="article-title d-inline-block pl-3 align-middle">
                             <span>Какойнить коммент добавлю</span>
                             <br>
-                            <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('build/images/dumbbell-mini.41a097b7.png') }}"> Имя автор </span>
+                            <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('build/images/astronaut-profile.png') }}"> Имя автор </span>
                             <span class="pl-5 article-details float-right"> 3 часа назад</span>
                         </div>
                     </a>
@@ -27,7 +27,7 @@
 
             <div class="col-sm-12 col-md-4 text-center">
                 <div class="ad-space mx-auto mt-1 pb-2 pt-2">
-                    <img class="advertisement-img" src="{{ asset('build/images/dumbbell-mini.41a097b7.png') }}">
+                    <img class="advertisement-img" src="{{ asset('build/images/meteor-shower.jpg') }}">
                     <p><span class="advertisement-text">Новости:</span> Тут какаенебуть статья</p>
                 </div>
 
@@ -38,4 +38,5 @@
             </div>
         </div>
     </div>
-{% endblock %}
+
+{% endblock auth_user_content %}
