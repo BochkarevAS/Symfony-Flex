@@ -10,14 +10,17 @@ Encore
     .setPublicPath('/build')
 
     // will create public/build/app.js and public/build/app.css
+    .createSharedEntry('layout', './assets/js/layout.js')
     .addEntry('app', './assets/js/app.js')
     .addEntry('login', './assets/js/login.js')
-    .addEntry('layout', './assets/js/layout.js')
 
     .enableBuildNotifications()
     .addPlugin(new CopyWebpackPlugin([
         { from: './assets/images', to: 'images' }
     ]))
+
+    .cleanupOutputBeforeBuild()
+    .enableVersioning()
 ;
 
 // export the final configuration
