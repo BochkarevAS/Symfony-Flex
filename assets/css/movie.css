@@ -1,0 +1,9 @@
+#movies {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#movies img {
+    flex: 1 100px;
+    margin: 5px;
+}
