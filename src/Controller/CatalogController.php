@@ -23,7 +23,7 @@ class CatalogController extends AbstractController
 
         $this->buildTree($data);
 
-        return new Response('<html><body>fff</body></html>');
+//        return new Response('<html><body>fff</body></html>');
 
         return $this->redirectToRoute('homepage');
     }
@@ -36,8 +36,8 @@ class CatalogController extends AbstractController
             $catalog = $this->getDoctrine()
                 ->getRepository(Catalog::class)
                 ->findOneBy([
-                    'parent_id' => $pid,
-                    'id_cat' => $node['id']
+                    'parentId' => $pid,
+                    'idCat' => $node['id']
                 ]);
 
             if (!$catalog) {
