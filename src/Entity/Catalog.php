@@ -19,9 +19,9 @@ class Catalog
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="id_cat")
      */
-    private $id_cat;
+    private $idCat;
 
     /**
      * @ORM\Column(type="string")
@@ -35,24 +35,36 @@ class Catalog
     private $slug;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="parent_id")
      */
-    private $parent_id;
+    private $parentId;
 
-    public function getParentId() {
-        return $this->parent_id;
+    /**
+     * @ORM\Column(type="datetime", name="created_at")
+     */
+    private $createdAt;
+
+    /**
+     *  @ORM\PrePersist
+     */
+    public function setCreatedAt() {
+        $this->createdAt = new \DateTime('now');
     }
 
-    public function setParentId($parent_id) {
-        $this->parent_id = $parent_id;
+    public function getParentId() {
+        return $this->parentId;
+    }
+
+    public function setParentId($parentId) {
+        $this->parentId = $parentId;
     }
 
     public function getIdCat() {
-        return $this->id_cat;
+        return $this->idCat;
     }
 
-    public function setIdCat($id_cat) {
-        $this->id_cat = $id_cat;
+    public function setIdCat($idCat) {
+        $this->idCat = $idCat;
     }
 
     public function getTitle() {

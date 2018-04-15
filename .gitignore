@@ -1,6 +1,7 @@
 .idea
 ###> symfony/framework-bundle ###
 .env
+/bin
 /public/bundles/
 /var/
 /vendor/
@@ -21,4 +22,3 @@ translations/
 node_modules/*
 yarn.lock
 public/build/*
-bin/*

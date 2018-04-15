@@ -45,10 +45,12 @@ class CatalogController extends AbstractController
                 $catalog->setIdCat($node['id']);
                 $catalog->setParentId($pid);
                 $catalog->setTitle($node['title']);
+                $catalog->setCreatedAt();
             } else {
                 $catalog->setIdCat($node['id']);
                 $catalog->setParentId($pid);
                 $catalog->setTitle($node['title']);
+                $catalog->setCreatedAt();
             }
 
             $em->persist($catalog);
