@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Catalog;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class CatalogController extends AbstractController
 {
@@ -20,54 +21,43 @@ class CatalogController extends AbstractController
 
         $data = json_decode($json, true);
 
-        $catalog = new Catalog();
+        $this->buildTree($data);
 
-        $em = $this->getDoctrine()->getManager();
-        $catalog->setIdCat(1);
-        $catalog->setParentId('1');
-        $catalog->setTitle('росс');
-
-        $em->merge($catalog);
-        $em->flush();
-
-
-//        $this->buildTree($data);
+        return new Response('<html><body>fff</body></html>');
 
         return $this->redirectToRoute('homepage');
     }
 
     private function buildTree($data, $pid = '0') {
+        $em = $this->getDoctrine()->getManager();
 
         foreach ($data as $node) {
 
-            $catalog = new Catalog();
+            $catalog = $this->getDoctrine()
+                ->getRepository(Catalog::class)
+                ->findOneBy([
+                    'parent_id' => $pid,
+                    'id_cat' => $node['id']
+                ]);
 
-            $em = $this->getDoctrine()->getManager();
-            $catalog->setIdCat($node['id']);
-            $catalog->setParentId($pid);
-            $catalog->setTitle($node['title']);
-//            $catalog->setSlug('slug');
+            if (!$catalog) {
+                $catalog = new Catalog();
+                $catalog->setIdCat($node['id']);
+                $catalog->setParentId($pid);
+                $catalog->setTitle($node['title']);
+            } else {
+                $catalog->setIdCat($node['id']);
+                $catalog->setParentId($pid);
+                $catalog->setTitle($node['title']);
+            }
 
             $em->persist($catalog);
-            $em->flush();
-
-
-
-//            $instance = Catalog::firstOrNew([
-//                'parent_id' => $pid,
-//                'id_cat' => $node['id']
-//            ]);
-//
-//            $instance->fill([
-//                'title' => $node['title'],
-//                'slug' => SlugifyFacade::slugify($node['title'])
-//            ]);
-//
-//            $instance->save();
 
             if (isset($node['children'])) {
                 $this->buildTree($node['children'], $node['id']);
             }
         }
+
+        $em->flush();
     }
 }
