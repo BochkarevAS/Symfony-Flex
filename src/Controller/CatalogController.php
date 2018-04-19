@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Catalog;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 
 class CatalogController extends AbstractController
 {
@@ -14,7 +13,6 @@ class CatalogController extends AbstractController
      * @Route("/import", name="catalog_import")
      */
     public function import() {
-
         $catalog = $_SERVER['DOCUMENT_ROOT'] . "/catalog.json";
 
         $json = file_get_contents($catalog);
@@ -22,8 +20,6 @@ class CatalogController extends AbstractController
         $data = json_decode($json, true);
 
         $this->buildTree($data);
-
-//        return new Response('<html><body>fff</body></html>');
 
         return $this->redirectToRoute('homepage');
     }
