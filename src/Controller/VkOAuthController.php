@@ -17,9 +17,17 @@ class VkOAuthController extends Controller
     ];
 
     /**
-     * @Route("/vk_oauth", name="authorize_start")
+     * @Route("/vk_oauth", name="vk_authorize_start")
      */
     public function redirectToAuthorization() {
+
+        $token = $this->get('session')->get('token');
+
+        if ($token) {
+            return $this->render('vk/main.html.twig', [
+                'token' => $token
+            ]);
+        }
 
         $http = [
             'client_id'     => '6453345',
@@ -66,14 +74,14 @@ class VkOAuthController extends Controller
             ]
         ]);
 
-        $body = $response->getBody();
-        $contents = $body->getContents();
+        $contents = $response->getBody()->getContents();
 
         $list = json_decode($contents, true);
+        $token = $list['access_token'];
+
+        $this->get('session')->set('token', $token);
 
         dump($list);
         die;
-
     }
-
 }
