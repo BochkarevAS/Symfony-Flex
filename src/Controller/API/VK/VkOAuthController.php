@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\API\VK;
 
+use App\Service\API\VK\VkUserInterface;
 use GuzzleHttp\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,31 +11,41 @@ use Symfony\Component\HttpFoundation\Request;
 class VkOAuthController extends Controller
 {
 
-    private $scope = [
-        'notify', 'friends', 'photos', 'audio', 'video', 'stories', 'pages',
-        'status', 'notes', 'wall', 'ads', 'offline', 'docs', 'groups',
-        'notifications', 'stats', 'email', 'market'
-    ];
+    private $vkUserService;
+
+    public function __construct(VkUserInterface $vkUserService) {
+        $this->vkUserService = $vkUserService;
+    }
 
     /**
-     * @Route("/vk_oauth", name="vk_authorize_start")
+     * @Route("/vk/oauth", name="vk_authorize_start")
      */
     public function redirectToAuthorization() {
-
         $token = $this->get('session')->get('token');
+        $id = $this->get('session')->get('id');
+
+        $scope = [
+            'notify', 'friends', 'photos', 'audio', 'video', 'stories', 'pages',
+            'status', 'notes', 'wall', 'ads', 'offline', 'docs', 'groups',
+            'notifications', 'stats', 'email', 'market'
+        ];
 
         if ($token) {
+            $user = $this->vkUserService->userInfo($id);
+
             return $this->render('vk/main.html.twig', [
-                'token' => $token
+                'id' => $id,
+                'token' => $token,
+                'user' => $user
             ]);
         }
 
         $http = [
             'client_id'     => '6453345',
-            'redirect_uri'  => 'http://127.0.0.1:8000/vk_oauth/receive',
+            'redirect_uri'  => 'http://127.0.0.1:8000/vk/oauth/receive',
             'display'       => 'page',
             'response_type' => 'code',
-            'scope'         => implode(',', $this->scope)
+            'scope'         => implode(',', $scope)
         ];
 
         $url = "https://oauth.vk.com/authorize?" . http_build_query($http);
@@ -43,10 +54,9 @@ class VkOAuthController extends Controller
     }
 
     /**
-     * @Route("/vk_oauth/receive/", name="vk_oauth_receive")
+     * @Route("/vk/oauth/receive/", name="vk_oauth_receive")
      */
     public function receiveAuthorizationCode(Request $request) {
-
         $code = $request->query->get('code');
 
         // Если вдруг ошибка. То обработаем по человечески !!!
@@ -69,7 +79,7 @@ class VkOAuthController extends Controller
             'form_params' => [
                 'client_id'     => '6453345',
                 'client_secret' => 'kKI7eT4hIQRNL3i0VV3X',
-                'redirect_uri'  => 'http://127.0.0.1:8000/vk_oauth/receive',
+                'redirect_uri'  => 'http://127.0.0.1:8000/vk/oauth/receive',
                 'code'          => $code
             ]
         ]);
@@ -77,11 +87,19 @@ class VkOAuthController extends Controller
         $contents = $response->getBody()->getContents();
 
         $list = json_decode($contents, true);
+        $id = $list['user_id'];
         $token = $list['access_token'];
 
         $this->get('session')->set('token', $token);
+        $this->get('session')->set('id', $id);
 
-        dump($list);
-        die;
+        // Будет братся инфа текущего пользоватиля сервеса
+        $user = $this->vkUserService->userInfo($id);
+
+        return $this->render('vk/main.html.twig', [
+            'id' => $id,
+            'token' => $token,
+            'user' => $user
+        ]);
     }
 }

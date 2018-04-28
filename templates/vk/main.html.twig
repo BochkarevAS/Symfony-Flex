@@ -2,6 +2,29 @@
 
 {% block auth_user_content %}
 
+    {{ user.first_name }}
+    {{ user.last_name }}
 
+    <section>
+        <button class="cd-bouncy-nav-trigger" href="#0">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </section>
+    <div class="cd-bouncy-nav-modal">
+        <nav>
+            <ul class="cd-bouncy-nav">
+                <li><a href="{{ path('vk_user_info', {'id': id, 'token': token}) }}">Пользователь</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#team">Our Team</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="#0" class="cd-close">Close modal</a>
+    </div>
 
 {% endblock auth_user_content %}
