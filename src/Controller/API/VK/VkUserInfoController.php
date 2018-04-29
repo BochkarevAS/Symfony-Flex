@@ -17,15 +17,17 @@ class VkUserInfoController extends Controller
     }
 
     /**
-     * @Route("/vk/user/info", name="vk_user_info")
+     * @Route("/vk/user/followers", name="vk_user_followers")
      */
     public function userInfo(Request $request) {
         $id = $request->query->get('id');
 
-        $user = $this->vkUserService->userInfo($id);
+        $followers = $this->vkUserService->getUserFollowers($id);
+        $friends = $this->vkUserService->getUserFriends($id);
 
-        return $this->render('vk/user_info.html.twig', [
-            'user' => $user
+        return $this->render('vk/user_followers.html.twig', [
+            'followers' => $followers,
+            'friends' => $friends
         ]);
     }
 

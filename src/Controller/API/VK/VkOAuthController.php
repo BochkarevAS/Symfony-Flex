@@ -31,7 +31,7 @@ class VkOAuthController extends Controller
         ];
 
         if ($token) {
-            $user = $this->vkUserService->userInfo($id);
+            $user = $this->vkUserService->getUser($id);
 
             return $this->render('vk/main.html.twig', [
                 'id' => $id,
@@ -94,7 +94,7 @@ class VkOAuthController extends Controller
         $this->get('session')->set('id', $id);
 
         // Будет братся инфа текущего пользоватиля сервеса
-        $user = $this->vkUserService->userInfo($id);
+        $user = $this->vkUserService->getUser($id);
 
         return $this->render('vk/main.html.twig', [
             'id' => $id,
