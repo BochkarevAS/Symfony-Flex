@@ -63,7 +63,7 @@ class User {
 
     _addUsers(user, filter) {
         let html = rowTemplate(user);
-        this.$wrapper.find('.js-followers-template').append($.parseHTML(html));
+        this.$wrapper.find(filter).append($.parseHTML(html));
     }
 }
 
@@ -71,7 +71,7 @@ const rowTemplate = (user) => `
     <div>
         <img src="${user.photo_50}">
         <a target="_blank" href="https://vk.com/id${user.id}">
-            ${user.first_name} ${user.first_name} 
+            ${user.first_name} ${user.last_name} 
         </a>
     </div>`;
 
