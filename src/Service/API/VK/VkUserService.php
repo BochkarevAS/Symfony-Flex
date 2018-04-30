@@ -21,7 +21,7 @@ class VkUserService implements VkUserInterface
 
     public function getUserFollowers($id) {
         $fields = [
-            'first_name', 'last_name'
+            'first_name', 'last_name', 'photo_50'
         ];
 
         $params = [
@@ -38,7 +38,7 @@ class VkUserService implements VkUserInterface
 
     public function getUserFriends($id) {
         $fields = [
-            'nickname'
+            'nicknam', 'photo_50'
         ];
 
         $params = [
