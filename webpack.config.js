@@ -12,6 +12,7 @@ Encore
     // will create public/build/app.js and public/build/app.css
     .createSharedEntry('layout', './assets/js/layout.js')
     .addEntry('app', './assets/js/app.js')
+    .addEntry('appUser', './assets/js/appUser.js')
     .addEntry('login', './assets/js/login.js')
 
     .enableBuildNotifications()

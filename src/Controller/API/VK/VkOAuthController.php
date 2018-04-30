@@ -64,7 +64,7 @@ class VkOAuthController extends Controller
             $error = $request->get('error');
             $errorDescription = $request->get('error_description');
 
-            return $this->render('error/vk_failed_authorization.html.twig', [
+            return $this->render('vk/error/vk_failed_authorization.html.twig', [
                 'error' => $error,
                 'errorDescription' => $errorDescription
             ]);

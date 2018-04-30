@@ -3,23 +3,22 @@
 {% block auth_user_content %}
 
     <div class="container js-user-module">
+        <div class="row">
 
-        <a class="js-show-followers" href="#" data-id="{{ user_id }}">
-            Подписчики
-            <span class="fa"></span>
-        </a>
+            <div class="col-sm-4">
+                <a class="js-show-friends" href="#" data-id="{{ user_id }}">
+                    Друзья <span class="fa"></span>
+                </a>
+                <div class="js-friends-template"></div>
+            </div>
 
-        <div class="js-followers-template"></div>
-
-        <hr>
-
-        <a class="js-show-friends" href="#" data-id="{{ user_id }}">
-            Друзья
-            <span class="fa"></span>
-        </a>
-
-        <div class="js-friends-template"></div>
-
+            <div class="col-sm-4">
+                <a class="js-show-followers" href="#" data-id="{{ user_id }}">
+                    Подписчики <span class="fa"></span>
+                </a>
+                <div class="js-followers-template"></div>
+            </div>
+        </div>
     </div>
 
 {% endblock auth_user_content %}
@@ -27,6 +26,6 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="{{ asset('build/app.js') }}"></script>
+    <script src="{{ asset('build/appUser.js') }}"></script>
 
 {% endblock  %}
