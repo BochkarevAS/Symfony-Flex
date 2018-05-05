@@ -2,7 +2,7 @@
 
 namespace App\Controller\API\VK;
 
-use App\Service\API\VK\VkInterface;
+use App\Service\API\VK\VkUserInterface;
 use GuzzleHttp\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,10 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class VkOAuthController extends Controller
 {
-
     private $vkUserService;
 
-    public function __construct(VkInterface $vkUserService) {
+    public function __construct(VkUserInterface $vkUserService) {
         $this->vkUserService = $vkUserService;
     }
 

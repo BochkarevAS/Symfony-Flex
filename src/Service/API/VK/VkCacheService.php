@@ -2,28 +2,40 @@
 
 namespace App\Service\API\VK;
 
-use Psr\SimpleCache\CacheInterface;
+use Psr\Cache\CacheItemPoolInterface;
 
-class VkCacheService implements VkRenderInterface
+class VkCacheService
 {
-    private $pool;
     private $cache;
 
-    public function __construct(VkRenderInterface $pool, CacheInterface $cache)
+    public function __construct(CacheItemPoolInterface $cache)
     {
-        $this->pool = $pool;
         $this->cache = $cache;
     }
 
-    public function render($id)
+    public function cacheFollowers($followers)
     {
-        $data = $this->cache->get("key");
+        $item = $this->cache->getItem('followers');
 
-        if (!$data) {
-            $data = $this->pool->render($id);
-            $this->cache->set("key", $data, 300);
+        if (!$item->isHit()) {
+            $item->set($followers);
+            $item->expiresAfter(1000);
+            $this->cache->save($item);
         }
 
-        return $data;
+        return $item->get();
+    }
+
+    public function cacheFriends($friends)
+    {
+        $item = $this->cache->getItem('friends');
+
+        if (!$item->isHit()) {
+            $item->set($friends);
+            $item->expiresAfter(1000);
+            $this->cache->save($item);
+        }
+
+        return $item->get();
     }
 }

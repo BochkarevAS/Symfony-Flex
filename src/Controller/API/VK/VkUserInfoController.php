@@ -2,9 +2,7 @@
 
 namespace App\Controller\API\VK;
 
-use App\Service\API\VK\VkFollowerService;
-use App\Service\API\VK\VkFriendService;
-use App\Service\API\VK\VkRenderInterface;
+use App\Service\API\VK\VkUserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,21 +10,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 class VkUserInfoController extends Controller
 {
-//    private $vkRenderService;
+    private $vkUserService;
 
-//    public function __construct(VkRenderInterface $vkRenderService)
-//    {
-//        $this->vkRenderService = $vkRenderService;
-//    }
+    public function __construct(VkUserInterface $vkUserService)
+    {
+        $this->vkUserService = $vkUserService;
+    }
 
     /**
      * @Route("/vk/user/followers", name="vk_user_followers", options={"expose"=true})
      */
-    public function getFollowers(Request $request, VkRenderInterface $followerService)
+    public function getFollowers(Request $request)
     {
         $id = $request->query->get('id');
-//        $followerService = $this->container->get(VkFollowerService::class);
-        $followers = $followerService->render($id);
+        $followers = $this->vkUserService->getFollowers($id);
         $json = $this->get('serializer')->serialize($followers, 'json');
 
         return new JsonResponse($json, 200, [], true);
@@ -38,9 +35,7 @@ class VkUserInfoController extends Controller
     public function getFriends(Request $request)
     {
         $id = $request->query->get('id');
-//        $friends = $this->vkRenderService->render($id);
-        $friendService = $this->container->get(VkFriendService::class);
-        $friends = $friendService->render($id);
+        $friends = $this->vkUserService->getFriends($id);
         $json = $this->get('serializer')->serialize($friends, 'json');
 
         return new JsonResponse($json, 200, [], true);
