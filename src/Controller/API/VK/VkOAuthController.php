@@ -12,14 +12,16 @@ class VkOAuthController extends Controller
 {
     private $vkUserService;
 
-    public function __construct(VkUserInterface $vkUserService) {
+    public function __construct(VkUserInterface $vkUserService)
+    {
         $this->vkUserService = $vkUserService;
     }
 
     /**
      * @Route("/vk/oauth", name="vk_authorize_start")
      */
-    public function redirectToAuthorization() {
+    public function redirectToAuthorization()
+    {
         $token = $this->get('session')->get('token');
         $id = $this->get('session')->get('id');
 
@@ -30,7 +32,7 @@ class VkOAuthController extends Controller
         ];
 
         if ($token) {
-            $user = $this->vkUserService->getUser($id);
+            $user = $this->vkUserService->getUser($id, $token);
 
             return $this->render('vk/main.html.twig', [
                 'id' => $id,
@@ -55,7 +57,8 @@ class VkOAuthController extends Controller
     /**
      * @Route("/vk/oauth/receive/", name="vk_oauth_receive")
      */
-    public function receiveAuthorizationCode(Request $request) {
+    public function receiveAuthorizationCode(Request $request)
+    {
         $code = $request->query->get('code');
 
         // Если вдруг ошибка. То обработаем по человечески !!!
@@ -93,7 +96,7 @@ class VkOAuthController extends Controller
         $this->get('session')->set('id', $id);
 
         // Будет братся инфа текущего пользоватиля сервеса
-        $user = $this->vkUserService->getUser($id);
+        $user = $this->vkUserService->getUser($id, $token);
 
         return $this->render('vk/main.html.twig', [
             'id' => $id,

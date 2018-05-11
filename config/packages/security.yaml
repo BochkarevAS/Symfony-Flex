@@ -14,11 +14,16 @@ security:
             security: false
         main:
             anonymous: ~
-            form_login:
-                login_path: user_login
-                check_path: user_login
-            logout:
-                path: /logout
+#            form_login:
+#                login_path: user_login
+#                check_path: user_login
+#            logout:
+#                path: /logout
+        vk_secured:
+            pattern:   ^/api/
+            stateless: true
+#            anonymous: true
+            vk:        true
 
             # activate different ways to authenticate
 

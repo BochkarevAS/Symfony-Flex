@@ -19,7 +19,7 @@ class VkCacheService
 
         if (!$item->isHit()) {
             $item->set($followers);
-            $item->expiresAfter(1000);
+            $item->expiresAfter(300);
             $this->cache->save($item);
         }
 
@@ -32,7 +32,7 @@ class VkCacheService
 
         if (!$item->isHit()) {
             $item->set($friends);
-            $item->expiresAfter(1000);
+            $item->expiresAfter(300);
             $this->cache->save($item);
         }
 

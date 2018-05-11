@@ -37,41 +37,47 @@ class User implements UserInterface
      */
     private $plainPassword;
 
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->email;
     }
 
-    public function getPlainPassword() {
+    public function getPlainPassword()
+    {
         return $this->plainPassword;
     }
 
-    public function setPlainPassword($password) {
+    public function setPlainPassword($password)
+    {
         $this->plainPassword = $password;
     }
 
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    public function getRoles() {
+    public function getRoles()
+    {
         return ['ROLE_USER'];
     }
 
-    public function getSalt() {
-    }
+    public function getSalt() {}
 
-    public function eraseCredentials() {
-    }
+    public function eraseCredentials() {}
 }
