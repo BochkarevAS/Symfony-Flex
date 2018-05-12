@@ -3,6 +3,7 @@
 namespace App\DependencyInjection\Security\Factory;
 
 use App\Security\Authentication\Provider\VkProvider;
+use App\Security\Firewall\VkListener;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -18,15 +19,11 @@ class VkFactory implements SecurityFactoryInterface
         $providerId = 'security.authentication.provider.vk.' . $id;
         $container
             ->setDefinition($providerId, new ChildDefinition(VkProvider::class))
-//                ->replaceArgument(0, new Reference($userProvider))
-        ;
-
-        $container
-            ->setAlias('Symfony\Component\Security\Core\User\UserProviderInterface', $userProvider)
+            ->replaceArgument(0, new Reference($userProvider))
         ;
 
         $listenerId = 'security.authentication.listener.vk.' . $id;
-        $listener = $container->setDefinition($listenerId, new ChildDefinition(VkProvider::class));
+        $listener = $container->setDefinition($listenerId, new ChildDefinition(VkListener::class));
 
         return array($providerId, $listenerId, $defaultEntryPoint);
     }
@@ -41,5 +38,19 @@ class VkFactory implements SecurityFactoryInterface
         return 'vk';
     }
 
-    public function addConfiguration(NodeDefinition $builder) {}
+    public function addConfiguration(NodeDefinition $builder)
+    {
+//        $builder
+//            ->children()
+//                ->scalarNode('check_path')
+//                    ->isRequired()
+//                ->end()
+//                ->scalarNode('login_path')
+//                    ->isRequired()
+//                ->end()
+//                ->scalarNode('provider')
+//                    ->isRequired()
+//                ->end()
+//            ->end();
+    }
 }

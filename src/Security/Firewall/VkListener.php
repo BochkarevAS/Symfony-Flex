@@ -21,14 +21,14 @@ class VkListener implements ListenerInterface
 
     public function handle(GetResponseEvent $event)
     {
-//        $request = $event->getRequest();
-
-//        $this->logger->debug("vk auth handled");
-
-        throw new AuthenticationException('The WSSE authentication failed.');
+        $request = $event->getRequest();
 
         dump($request);
         die;
+
+        throw new AuthenticationException('The WSSE authentication failed.');
+
+
 
         if (!$request->headers->has('Authorization')) {
             return;

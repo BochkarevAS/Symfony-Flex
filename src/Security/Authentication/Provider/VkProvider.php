@@ -15,7 +15,7 @@ class VkProvider implements AuthenticationProviderInterface
     private $cachePool;
 
     public function __construct(UserProviderInterface $userProvider, CacheItemPoolInterface $cachePool)
-    {
+    {throw new AuthenticationException('The WSSE authentication failed.');
         $this->userProvider = $userProvider;
         $this->cachePool = $cachePool;
     }

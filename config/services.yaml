@@ -28,6 +28,7 @@ services:
 
     App\Security\Authentication\Provider\VkProvider:
         arguments:
+            0: ''
             $cachePool: '@cache.app'
         public: false
 

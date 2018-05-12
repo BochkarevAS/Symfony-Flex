@@ -5,6 +5,7 @@ namespace App\Controller\Auth;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends Controller
@@ -24,52 +25,13 @@ class LoginController extends Controller
         ]);
     }
 
-//    /**
-//     * @Route("/api", name="api")
-//     */
-//    public function loginVk()
-//    {
-////        die("API here");
-//        return $this->render('base.html.twig');
-//    }
-
-
-
-
-
-
-
-
-    /**
-     * @Route("/ttt", name="indexs")
-     */
-    public function indexAction()
-    {
-
-        die("API here");
-
-        return array(
-            'facebookAppId' => $this->container->getParameter('facebookAppId'),
-            'user'          => null !== $this->get('security.context') ? $this->getUser() : $this->get('security.context')->getToken(),
-        );
-    }
-
     /**
      * @Route("/api", name="api")
      */
     public function loginS(Request $request)
     {
-
-        return $this->redirect($request->server->get('HTTP_REFERER', $this->generateUrl('indexs')));
+        return new Response('<html><body>Hello</body></html>');
     }
-
-
-
-
-
-
-
-
 
     /**
      * @Route("/logout", name="user_logout")

@@ -12,19 +12,23 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            anonymous: ~
-#            form_login:
-#                login_path: user_login
-#                check_path: user_login
-#            logout:
-#                path: /logout
+#        login_firewall:
+#            pattern: ^/login$
+#            anonymous: ~
         vk_secured:
-            pattern:   ^/api/
+            pattern:   ^/api
+            anonymous: ~
             stateless: true
-#            anonymous: true
             vk:        true
-
+#                check_path: /api
+        main:
+            pattern:   ^/
+            anonymous: ~
+            form_login:
+                login_path: user_login
+                check_path: user_login
+            logout:
+                path: /logout
             # activate different ways to authenticate
 
             # http_basic: true
@@ -38,4 +42,4 @@ security:
     access_control:
         - { path: ^/user_login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user_registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
