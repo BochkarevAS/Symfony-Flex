@@ -12,25 +12,22 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-#        login_firewall:
-#            pattern: ^/login$
-#            anonymous: ~
+        login_firewall:
+            pattern: ^/login$
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+                path: /logout
         vk_secured:
             pattern:   ^/api
             anonymous: ~
             stateless: true
             vk:        true
-            form_login:
-                login_path: login
-                check_path: api
         main:
             pattern:   ^/
             anonymous: ~
-            form_login:
-                login_path: login
-                check_path: login_check
-            logout:
-                path: /logout
             # activate different ways to authenticate
 
             # http_basic: true
@@ -42,8 +39,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/user_registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
