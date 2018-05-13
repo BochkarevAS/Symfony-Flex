@@ -12,9 +12,9 @@ class LoginController extends Controller
 {
 
     /**
-     * @Route("/login", name="user_login")
+     * @Route("/login", name="login")
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    public function loginCheck(Request $request, AuthenticationUtils $authenticationUtils)
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -25,11 +25,21 @@ class LoginController extends Controller
         ]);
     }
 
+//    /**
+//     * @Route("/login", name="login")
+//     */
+//    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+//    {
+//        return $this->render('home/homepage.html.twig');
+//    }
+
     /**
      * @Route("/api", name="api")
      */
-    public function loginS(Request $request)
+    public function loginAPI(Request $request)
     {
+//        return $this->redirect($request->server->get('HTTP_REFERER', $this->generateUrl('user_login')));
+
         return new Response('<html><body>Hello</body></html>');
     }
 
@@ -40,5 +50,4 @@ class LoginController extends Controller
     {
         throw new \Exception('this should not be reached!');
     }
-
 }
