@@ -25,14 +25,6 @@ class LoginController extends Controller
         ]);
     }
 
-//    /**
-//     * @Route("/login", name="login")
-//     */
-//    public function login(Request $request, AuthenticationUtils $authenticationUtils)
-//    {
-//        return $this->render('home/homepage.html.twig');
-//    }
-
     /**
      * @Route("/api", name="api")
      */
