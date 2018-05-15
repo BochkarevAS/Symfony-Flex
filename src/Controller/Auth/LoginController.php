@@ -5,7 +5,6 @@ namespace App\Controller\Auth;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends Controller
@@ -23,16 +22,6 @@ class LoginController extends Controller
             'last_username' => $lastUsername,
             'error' => $error
         ]);
-    }
-
-    /**
-     * @Route("/api", name="api")
-     */
-    public function loginAPI(Request $request)
-    {
-//        return $this->redirect($request->server->get('HTTP_REFERER', $this->generateUrl('user_login')));
-
-        return new Response('<html><body>Hello</body></html>');
     }
 
     /**

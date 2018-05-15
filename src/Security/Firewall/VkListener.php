@@ -3,6 +3,8 @@
 namespace App\Security\Firewall;
 
 use App\Client\OAuth2Client;
+use App\Client\Provider\Social\VKontakteProvider;
+use App\Security\Authentication\Token\VkUserToken;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
@@ -26,53 +28,19 @@ class VkListener implements ListenerInterface
         $requestStack = new RequestStack();
         $requestStack->push($request);
 
-        $client = new OAuth2Client($requestStack);
-        $response = $client->redirect();
+        $client = new OAuth2Client(new VKontakteProvider(), $requestStack);
+        $contents = $client->getAccessToken();
 
-        dump($response);
-        die;
+//        dump($contents);
+//        die;
 
+        if (($token = $contents['access_token']) && ($uid = $contents['user_id']) && ($email = $contents['email'])) {
+            $vkUserToken = new VkUserToken();
+            $vkUserToken->setKey($uid);
+            $vkUserToken->setHash($token);
+            $vkUserToken->setEmail($email);
 
-//        dump($requestStack->getCurrentRequest());
-
-
-        $client->getAccessToken();
-
-
-        dump($client);
-        die;
-
-//        $wsseRegex = '/UsernameToken Username="([^"]+)", PasswordDigest="([^"]+)", Nonce="([a-zA-Z0-9+\/]+={0,2})", Created="([^"]+)"/';
-//        if (!$request->headers->has('x-wsse') || 1 !== preg_match($wsseRegex, $request->headers->get('x-wsse'), $matches)) {
-//            return;
-//        }
-
-
-
-
-
-
-
-//        throw new AuthenticationException('The WSSE authentication failed.');
-//
-//
-//
-//        if (!$request->headers->has('Authorization')) {
-//            return;
-//        }
-
-//        $authorizationHeader = $request->headers->get('Authorization');
-//        $tokenString = $this->parseAuthorizationHeader($authorizationHeader);
-
-//        $vkUserToken = new VkUserToken();
-//        $user->setFacebookId($userId);
-//        $user->setUsername($userInfo['name']);
-//        $user->setLang($userInfo['locale']);
-//        $user->setEmail($userInfo['email']);
-//        $this->entityManager->persist($user);
-//        $this->entityManager->flush();
-
-
+        }
 
 
     }

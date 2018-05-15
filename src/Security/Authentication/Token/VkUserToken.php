@@ -8,6 +8,7 @@ class VkUserToken extends AbstractToken
 {
     protected $key;
     protected $hash;
+    protected $email;
 
     public function __construct(array $roles = [])
     {
@@ -35,6 +36,16 @@ class VkUserToken extends AbstractToken
     public function setHash($hash)
     {
         $this->hash = $hash;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     public function getCredentials()
