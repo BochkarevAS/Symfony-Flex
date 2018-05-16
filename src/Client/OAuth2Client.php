@@ -22,9 +22,9 @@ class OAuth2Client
         $token = $this->getSession()->get('token');
         $url = $this->provider->getAuthorizationUrl();
 
-        if ($token) {
-            return new RedirectResponse('vk/main.html.twig');
-        }
+//        if ($token) {
+//            return new RedirectResponse('vk/user_info.html.twig');
+//        }
 
         return new RedirectResponse($url);
     }

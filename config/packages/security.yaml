@@ -21,7 +21,7 @@ security:
             logout:
                 path: /logout
         vk_secured:
-            pattern:   ^/api
+            pattern:   ^/api/.*
             anonymous: ~
             stateless: true
             vk:        true

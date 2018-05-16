@@ -24,7 +24,7 @@ class VkProvider implements AuthenticationProviderInterface
     {
         $user = $this->userProvider->loadUserByUsername($token->getUsername());
 
-        if ($user /* && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())*/) {
+        if ($user) {
             $authenticatedToken = new VkUserToken($user->getRoles());
             $authenticatedToken->setUser($user);
 

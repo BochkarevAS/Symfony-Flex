@@ -6,9 +6,11 @@ use App\Client\OAuth2Client;
 use App\Client\Provider\Social\VKontakteProvider;
 use App\Security\Authentication\Token\VkUserToken;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 class VkListener implements ListenerInterface
@@ -31,17 +33,31 @@ class VkListener implements ListenerInterface
         $client = new OAuth2Client(new VKontakteProvider(), $requestStack);
         $contents = $client->getAccessToken();
 
-//        dump($contents);
-//        die;
+        if (($hash = $contents['access_token']) && ($uid = $contents['user_id']) && ($email = $contents['email'])) {
+            $token = new VkUserToken();
+            $token->setUser("vk{$uid}");
+            $token->setKey($uid);
+            $token->setHash($hash);
+            $token->setEmail($email);
 
-        if (($token = $contents['access_token']) && ($uid = $contents['user_id']) && ($email = $contents['email'])) {
-            $vkUserToken = new VkUserToken();
-            $vkUserToken->setKey($uid);
-            $vkUserToken->setHash($token);
-            $vkUserToken->setEmail($email);
+            try {
+                $authToken = $this->authenticationManager->authenticate($token);
+                $this->tokenStorage->setToken($authToken);
+            } catch (AuthenticationException $failed) {
+                $failedMessage = 'Login failed for '.$token->getUsername() . '. Why ? ' . $failed->getMessage();
+                $response = new Response();
+                $response->setStatusCode(403);
+                $response->setContent($failedMessage);
+                $event->setResponse($response);
 
+                return $response;
+            }
         }
 
+        $response = new Response();
+        $response->setStatusCode(Response::HTTP_FORBIDDEN);
+        $event->setResponse($response);
 
+        return $response;
     }
 }

@@ -28,8 +28,6 @@ class OAuth2ClientController extends Controller
      */
     public function login()
     {
-        die(111);
-
-//        return new Response('<html><body>Hello</body></html>');
+        return $this->render('vk/main.html.twig');
     }
 }
